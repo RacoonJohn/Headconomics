@@ -1,0 +1,18 @@
+{
+	"hc.collect_delay": "Délai de collecte",
+	"hc.collect_goal": "Objectif de collecte",
+	"hc.config": "Configuration",
+	"hc.congratulation_you_succeeded_to_acheive_the_goal": "Félicitation, tu as atteint l'objectif!",
+	"hc.pre_head_available_1min": "Tête de ",
+	"hc.s_head_available_1min": " (disponible pendant 1min)",
+	"hc.loaded_headconomics_v0_0_1": "[Headconomics v0.0.1 rechargé]",
+	"hc.s_heads_from": " de la part de ",
+	"hc.save": "Sauvegarder",
+	"hc.the_delay_to_collect_heads_endedall_previous_sanctions_are_remov": "Le délai de collecte des têtes est passé!\n Toutes les sanctions précédentes sont retirés",
+	"hc.wallet": "Porte-feuilles ",
+	"hc.wire_transfer": "Virement",
+	"hc.you_cannot_accept_wire_transfer_for_the_moment": "Tu ne peux pas accepter de virements pour le moment",
+	"hc.you_cannot_deduct_heads_from_yourself": "Tu ne peux pas te déduire tes propres têtes!",
+	"hc.you_failed_to_acheive_the_goal": "Tu n'as pas atteint l'objectif!",
+	"hc.you_received": "Tu as reçu des têtes de "
+}

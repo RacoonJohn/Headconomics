@@ -1,0 +1,150 @@
+
+## Beet configuration template file for a project using stewbeet, bolt, and mecha.
+# All configurations are filled with default values, and you can remove any that you don't need.
+
+# Project identifier used for namespacing functions and tags. Should align with the namespace in the source folder.
+id: "hc"
+# Project name that will be used in messages, item lore, etc.
+name: "Headconomics"
+# Pack description for pack.mcmeta. Defaults to "{name} [{version}] by {author}" if empty.
+description: "Motive minecraft economics with head"
+# Author(s) name(s) displayed in pack.mcmeta, also used to add 'convention.debug' tag to the players of the same name(s) <-- showing additionnal displays like datapack loading
+author: "RAC00NJOHN"
+# Project version in semantic versioning format: major.minor.patch (e.g., 1.0.0 or 2.84.615).
+version: "0.0.1"
+# Minecraft version. Determines what resources beet loads (plugins like `mecha` determine what commands to use). Defaults: Latest
+minecraft: "26.3"
+
+# Defines the directory that beet uses for the base path
+directory: "."
+# Path to a folder for beet to output. If not defined, no files will visibly output
+output: "build"
+# List of files or glob patterns that should be ignored by the file watcher and not cause any rebuild when using `$ beet watch`
+ignore: ["build", "iso_renders", "manual_content.json", "definitions_debug.json"]
+
+# A list of importable plugin strings
+require:
+    - "stewbeet"
+    - "stewbeet.plugins.livereload"
+    - "stewbeet.plugins.sniffer"
+
+# Takes a nested pack config, see PackConfig() documentation
+data_pack:
+    name: "datapack"
+    load: ["src"]
+
+# Takes a nested pack config, see PackConfig() documentation
+resource_pack:
+    name: resource_pack
+    load: ["src"]
+
+# A list of strings or dicts representing "plugins".
+# - These plugins will execute after the pack is loaded
+# - If item = str, should be a path to an importable plugin (ex: "stewbeet.plugins.auto_lang")
+# - If item = dict, should be a nestable project config
+#     - Each sub-pipeline creates a temp context inheriting the parent context
+pipeline:
+    - "src.setup_definitions" # User code
+    - "stewbeet.plugins.resource_pack.sounds"   # TIP: You can add ".silent" to any stewbeet plugin if you dislike its output.
+    - "stewbeet.plugins.resource_pack.item_models"
+    - "stewbeet.plugins.resource_pack.check_power_of_2"
+    - "stewbeet.plugins.datapack.loading"
+    - "stewbeet.plugins.datapack.loot_tables"
+    - "stewbeet.plugins.datapack.sorters"
+    - "stewbeet.plugins.compatibilities.simpledrawer"
+    - "stewbeet.plugins.compatibilities.neo_enchant"
+    - "src.link" # User code
+    - "stewbeet.plugins.finalyze.custom_blocks_ticking"
+    - "stewbeet.plugins.finalyze.basic_datapack_structure"
+    - "stewbeet.plugins.finalyze.dependencies"
+    - "stewbeet.plugins.finalyze.unload"
+    - "stewbeet.plugins.finalyze.check_unused_textures"
+    - "stewbeet.plugins.finalyze.last_final"
+    - "stewbeet.plugins.auto.scoreboard_constants"
+    - "stewbeet.plugins.auto.lang_file"
+    - "stewbeet.plugins.auto.text_renders"
+    - "stewbeet.plugins.auto.headers"
+    - "stewbeet.plugins.sniffer.emit"
+    - "stewbeet.plugins.archive"
+    - "stewbeet.plugins.merge_smithed_weld"
+    - "stewbeet.plugins.copy_to_destination"
+    - "stewbeet.plugins.compute_sha1"
+
+# Generic dict which holds extra information usable by plugins
+meta:
+    # List of supported Minecraft versions (used when uploading to Modrinth or Smithed)
+    mc_supports: ["26.3", "infinite"]
+
+    # Model resolver configuration for caching models
+    model_resolver:
+        use_cache: true
+
+    # StewBeet specific configuration
+    stewbeet:
+        # Directory containing all project textures
+        textures_folder: "assets/textures"
+        # Directory containing all custom sounds
+        sounds:
+            folder: "assets/sounds"
+            # Optional: glob patterns to exclude from processing
+            exclude_patterns: ["some_sub_folder/*"]
+        # Directory containing all jukebox records
+        records_folder: "assets/records"
+        # Directory containing libraries that will be copied to the build destination, and merged using Smithed Weld if enabled.
+        libs_folder: "libs"
+        # Optional: glob patterns (relative to libs_folder) of library archives to leave out of the build
+        libs_exclude_patterns: []
+        # Optional list of destination paths where generated files will be copied
+        build_copy_destinations:
+            # Paths to copy the datapack(s) to (See extensive_template/beet.yml for example)
+            datapack: ["C:/Users/racoo/AppData/Roaming/PandoraLauncher/synced/saves/Headconomics/datapacks/"]
+            # Paths to copy the resource pack(s) to (See extensive_template/beet.yml for example)
+            resource_pack: ["C:/Users/racoo/AppData/Roaming/PandoraLauncher/synced/resourcepacks/"]
+        # Custom item lore configuration. If set to "auto" or unset, uses project icon followed by PROJECT_NAME (rendered with the generated tooltip font)
+        source_lore: "auto"
+        # Color of the tooltip font used by source_lore: "auto" (taken from the pack.png logo), any color ("#55FFFF", "gold", [85, 255, 255]), or false to keep the packaged gold.
+        # A tooltip.png placed in "assets/" (next to pack.png) replaces the packaged character atlas and is never recolored.
+        source_lore_color: "auto"
+        # Custom dependencies to check at runtime alongside the official ones.
+        # Each entry key is the dependency namespace; the value is a dict with:
+        #   name    : display name used in error messages
+        #   url     : link shown when dependency is missing
+        #   source  : "static" | "modrinth" | "smithed"
+        # Source-specific fields:
+        #   static  -> static_urls: {((mc_ver_tuple), (dep_ver_tuple)): "url"}
+        #   modrinth -> modrinth_slug: "slug"  (latest MC-compatible release auto-fetched)
+        #   smithed  -> smithed_id: "id", has_resource_pack: bool  (latest MC-compatible version auto-fetched)
+        load_dependencies: {
+            # --- Modrinth example (latest release for the current MC version is auto-fetched) ---
+            # "itemio": {"name":"ItemIO", "url":"https://github.com/edayot/ItemIO",
+            #     "source":"modrinth", "modrinth_slug":"itemio"
+            # },
+
+            # --- Smithed API example (latest MC-compatible version is auto-fetched) ---
+            # "smithed.crafter": {"name":"Smithed Crafter", "url":"https://wiki.smithed.dev/libraries/crafter/",
+            #     "source":"smithed", "smithed_id":"crafter", "has_resource_pack":true
+            # },
+
+            # --- Static URL example (version pinned, zip downloaded from given URL per MC version) ---
+            # "common_signals": {"version":[0, 2, 0], "name":"Common Signals", "url":"https://github.com/Stoupy51/CommonSignals",
+            #     "source":"static", "static_urls":{
+            #         "((1, 21, 7), (0, 2, 0))": "https://github.com/Stoupy51/CommonSignals/releases/download/v0.2.0/CommonSignals_datapack.zip"
+            #     }
+            # },
+        }
+
+        # Folder holding the per-item PNG renders (isometric renders, downloaded vanilla textures,
+        # and the ones you drop yourself for items of other packs, as "<folder>/<namespace>/<item>.png").
+        # Shared by the ingame_manual and auto.text_renders plugins so an item is only rendered once.
+        iso_renders_path: "iso_renders"
+        # Configuration for the "render" key of text components (auto.text_renders plugin)
+        text_renders:
+            # On-screen glyph height in pixels used when a render node omits its own "height".
+            # There is no width to set: Minecraft derives it from the texture's aspect ratio.
+            default_height: 16
+            # Texture height in pixels used when a render node omits its own "resolution".
+            # 0 stores each source image untouched, keeping all its detail so glyphs stay sharp at
+            # high GUI scales; a lower value shrinks them to save resource pack size.
+            default_resolution: 0
+            # Name of the generated font, in the project namespace
+            font: "renders"
