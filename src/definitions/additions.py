@@ -364,16 +364,16 @@ $scoreboard players remove $(owner) {ns}.head_count.$(id) $(count)
 
   dialog = {
   "type": "minecraft:multi_action",
-  "title": [{
-    "text": "Wallet "
-  },"",{"text":"/"},""],
+  "title": [{"text": "Wallet","bold":True}],
+  "body": {"type":"plain_message","contents":["",{"text":"/"},"","\n","",{"text":" hours left"}]},
   "inputs": [],
   "after_action": "none",
   "pause": False,
   "columns": 8,
   "actions": []
 }
-
+             
+                 
   action = f'''{{
 			"width":40,
       "label": [{{
@@ -396,8 +396,14 @@ tag @s add {ns}.in_wallet
 data modify storage {ns}: dialog set value {dialog}
 
 execute store result storage {ns}: macro.count int 1 run function {ns}:head/get_unique
-data modify storage {ns}: dialog.title[-3] set string storage {ns}: macro.count
-data modify storage {ns}: dialog.title[-1] set string storage {ns}:data config.goal
+data modify storage {ns}: dialog.body.contents[0] set string storage {ns}: macro.count
+data modify storage {ns}: dialog.body.contents[2] set string storage {ns}:data config.goal
+
+data modify storage {ns}: dialog.body.contents[4] set compute default integer {{type:"div",right:72000,left:{{type:"sub",left:{{type:"mul",inputs:[72000,{{type:"storage",storage:"{ns}:data",path:"config.delay"}}]}},right:{{type:"score",score:"{ns}.my_time",target:"this"}}}}}}
+execute if predicate {{type:"int_value_check",test:0,value:{{type:"storage",storage:"{ns}:",path:"dialog.body.contents[4]"}}}} run data modify storage {ns}: dialog.body.contents[5] set value {{text:" minutes left"}}
+execute if predicate {{type:"int_value_check",test:0,value:{{type:"storage",storage:"{ns}:",path:"dialog.body.contents[4]"}}}} run data modify storage {ns}: dialog.body.contents[4] set compute default integer {{type:"sub",left:{{type:"mul",inputs:[60,{{type:"storage",storage:"{ns}:data",path:"config.delay"}}]}},right:{{type:"div",right:1200,left:{{type:"score",score:"{ns}.my_time",target:"this"}}}}}}
+data modify storage {ns}: dialog.body.contents[4] set string storage {ns}: dialog.body.contents[4]
+
 
 data modify storage {ns}: temp set from storage {ns}:data uuids
 function {ns}:head/dialog/recurse with storage {ns}: temp[-1]

@@ -120,25 +120,25 @@ Headconomics ships as two packs that work together.
 2. Place it in your world's `datapacks/` folder ( `<server>/world/datapacks/`).
 3. Run `/reload` or restart the world/server.
 
-### Resource Pack
+### Resource Pack (optional)
 
 1. Download `Headconomics_resource_pack.zip`.
 2. Place it in your `resourcepacks/` folder and enable it, **or** set it as the server resource pack in `server.properties`.
 
-> The resource pack is required to display the wallet interface translations.
+> The resource pack is required to display the wallet interface translations (default to English).
 
 ---
 
 ## 🧩 Compatibility
 
 - **Minecraft Java Edition 26.3**
-- No mods required (vanilla datapack + resource pack).
+- No mods required (vanilla datapack + optional resource pack).
 
 ---
 
 ## 🗺️ Roadmap
 
-- [ ] Core wallet system (stackable heads, unique count)
+- [ ] Core wallet system (stackable heads)
 - [ ] Cycle system (wallet reset + 32 starter heads)
 - [ ] Transfer vouchers (deduct on use, 1-minute expiry)
 - [ ] Death vouchers
