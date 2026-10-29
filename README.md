@@ -145,7 +145,7 @@ Headconomics ships as two packs that work together.
 - [ ] Per-player online-only timers
 - [ ] Configurable goal and collection time
 - [ ] Half-health sanction (non-stacking)
-- [ ] Resource pack (wallet UI, voucher model, translations)
+- [ ] Resource pack (translations)
 
 ---
 
