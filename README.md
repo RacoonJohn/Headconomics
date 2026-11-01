@@ -52,7 +52,7 @@ Heads are **not items in your inventory**; they are credited directly to your wa
 - **Death vouchers** – when a player dies, a voucher for **their head** appears at the location of their death. Anyone can pick it up and use it to claim the head.
 - **Player-to-player vouchers** – players can send heads to each other on purpose (trades, gifts, deals…).
 
-Your wallet can contain **multiple copies of the same head**. The objective, however, counts **diffetent heads**: the number of *different* players whose head you hold at least once.
+Your wallet can contain **multiple copies of the same head**. The objective, however, counts **different heads**: the number of *different* players whose head you hold at least once.
 
 > Example: holding 5× Steve and 2× Alex counts as **2 different heads**. If Steve's heads are all debited from your wallet, you lose that head in the counter, but not before your last copy of it is gone.
 
